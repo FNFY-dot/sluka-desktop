@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sluka — floating subtitles</title>
+<link rel="stylesheet" href="/__sluka__/bar.css">
+<script type="module" src="/__sluka__/bar.js"></script>
+</head>
+<body>
+<!--
+  Sluka's subtitle box in a window of its own, over every other: a line put
+  into it (by another program, through the app) is shown as Sluka shows a
+  subtitle, its words read with Sluka's own word list and dictionary.  The
+  window is see-through and as large as the screen; bar.js says which parts
+  of it are drawn on.
+-->
+<div id="bar" class="bar" hidden>
+  <div id="area" class="area">
+    <div id="tools" class="tools" role="toolbar" aria-label="Floating subtitles">
+      <button type="button" data-act="grip" title="Move (or drag the subtitle itself)">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><g fill="currentColor"><circle cx="5.6" cy="3.6" r="1.25"/><circle cx="10.4" cy="3.6" r="1.25"/><circle cx="5.6" cy="8" r="1.25"/><circle cx="10.4" cy="8" r="1.25"/><circle cx="5.6" cy="12.4" r="1.25"/><circle cx="10.4" cy="12.4" r="1.25"/></g></svg>
+      </button>
+      <button type="button" data-act="smaller" title="Smaller">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.8 12.5 4.9 4.5 8 12.5M3 9.6h3.8"/><path d="M10.2 8.4h4.4"/></g></svg>
+      </button>
+      <button type="button" data-act="larger" title="Larger">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1.8 12.5 4.9 4.5 8 12.5M3 9.6h3.8"/><path d="M10.2 8.4h4.4M12.4 6.2v4.4"/></g></svg>
+      </button>
+      <span class="sep" aria-hidden="true"></span>
+      <button type="button" data-act="lock" title="Keep it where it is" aria-pressed="false">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3.3" y="7.2" width="9.4" height="6.6" rx="1.6"/><path d="M5.4 7.2V5.1a2.6 2.6 0 0 1 5.2 0v2.1"/></g></svg>
+      </button>
+      <button type="button" data-act="through" title="Let clicks go through to what is under it (hold Ctrl to use it then)" aria-pressed="false">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 2.2v9.4l2.5-2.2 1.7 3.9 1.7-.75-1.7-3.85h3.3z" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><path d="M1.6 14.6h1.6M5.2 14.6h1.6M8.8 14.6h1.6M12.4 14.6h1.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </button>
+      <span class="sep" aria-hidden="true"></span>
+      <button type="button" data-act="close" title="Close the floating subtitles">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 4.2l7.6 7.6M11.8 4.2l-7.6 7.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="edge left" data-act="size" title="Wider or narrower"></div>
+    <div id="box" class="box">
+      <button type="button" id="badge" class="badge" data-act="through" title="Clicks go through the subtitles: click here to take them back (or hold Ctrl)">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.2 2.2v9.4l2.5-2.2 1.7 3.9 1.7-.75-1.7-3.85h3.3z" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/><path d="M1.6 14.6h1.6M5.2 14.6h1.6M8.8 14.6h1.6M12.4 14.6h1.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </button>
+      <div id="cc" class="cc"></div>
+    </div>
+    <div class="edge right" data-act="size" title="Wider or narrower"></div>
+  </div>
+</div>
+<div id="card" class="card theme" data-theme="dark" hidden></div>
+<div id="panel" class="panel theme" data-theme="dark" hidden></div>
+<div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

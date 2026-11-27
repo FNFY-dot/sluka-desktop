@@ -1,0 +1,68 @@
+Sluka's screen reader (OCR)
+===========================
+
+The files in this folder read the text off a part of the screen, for a game
+whose text no hook reads (the Screen tab of the game text menu).  They are
+LunaTranslator's own, exactly as LunaTranslator 12.1.3.12 ships them
+(LunaTranslator_x64.zip); nothing in them has been changed.
+
+  CVUtils.dll             LunaTranslator's OCR (files\DLL64): it finds the
+                          lines of text in a picture and reads them, with
+  onnxruntime.dll         Microsoft's ONNX Runtime (files\DLL64), running
+  model\det.onnx          PaddleOCR's PP-OCRv5 mobile model, which finds
+  model\rec.onnx          the lines and reads them (Japanese, Chinese and
+  model\dict.txt          English; files\ocrmodel)
+  NativeUtils.dll         LunaTranslator's Windows helpers (files\DLL64):
+                          Windows' own OCR, the box you drag over the
+                          screen, and the requests to Google Lens and
+                          its answers
+  concrt140.dll, msvcp140.dll, msvcp140_1.dll, vcruntime140.dll,
+  vcruntime140_1.dll      Microsoft's C++ runtime, which they need
+                          (files\runtime3.13-64)
+
+LunaTranslator can also read with the OCR inside Windows 11's Snipping Tool,
+copied out of the Snipping Tool's folder.  Sluka does not: that OCR is a part
+of Microsoft's Snipping Tool app, which Microsoft has not licensed for other
+programs to copy out and run.  (Sluka Desktop 0.12.3 and before did; 0.12.4
+takes away the copies they made, in data\ocr\SnippingTool.)
+
+Google Lens is online: when it is chosen, each picture is sent to Google
+(through Tor where Sluka is set to go online through it; never where Sluka
+is set to stay offline), and Google's terms and privacy policy apply to it.
+Sluka asks before Google Lens first reads; until a yes, an offline reader
+reads instead.  "Auto" never chooses it.
+
+ONNX Runtime, as Microsoft builds it, notes how it is used as trace events of
+Windows' own, which Windows may send to Microsoft with its diagnostic data.
+Sluka turns them off (ONNX Runtime's DisableTelemetryEvents) before its OCR
+starts.
+
+Sluka Desktop runs these from app\sluka_desktop\ocrd.py, a program of its
+own, calling them the way LunaTranslator's own Python does.
+
+LunaTranslator is by HIllya51 and its contributors, free software under the
+GNU General Public License, version 3 (..\LICENSES\LICENSE.LunaTranslator);
+its source code, the very version these files are from, is in
+..\source\LunaTranslator-12.1.3.12.zip (src\NativeImpl\CVUtils,
+src\NativeImpl\NativeUtils).  PaddleOCR and its models: Apache License 2.0
+(..\LICENSES\LICENSE.PaddlePaddle.PaddleOCR, LICENSE.RapidAI.RapidOcrOnnx).
+OpenCV, inside CVUtils.dll: Apache License 2.0 (LICENSE.opencv.opencv).
+ONNX Runtime: MIT License (LICENSE.microsoft.onnxruntime; what it is built
+with: ..\..\LICENSES\ONNX-Runtime-notices.txt).  The C++ runtime files are
+Microsoft's, which may go with the programs that need them (..\..\NOTICES.txt,
+3).  ..\..\NOTICES.txt, 5, says what else is in these files.
+
+The files should be these (SHA-256):
+
+  410e4e2a80c04189512e962f5bc3a6767fc7d023266002900eb85a65ec512b39  CVUtils.dll
+  139935730f4653b095a0ac992564d8722fb4ce8199350f4175c911ae49aaafd4  NativeUtils.dll
+  e7eedec6a6f26dc39dc948276a75ef6d2bee3fff944d874ceed0bbd3b97bff40  onnxruntime.dll
+  8efda0374a4b4df975feeefbea3d86cafdd36802a0144c3d261295bd268071c7  concrt140.dll
+  59d325227321d52b9a523ea401ce6787a5d59f78229a0ff3a6f124e5d3445685  msvcp140.dll
+  1c6522f4d005539109aa040f063659704bfda94a224142f50942573cfbcf7ec9  msvcp140_1.dll
+  eb1ee979bf02324712346e5bdbfc59c785388bc50d18cc2688aae4b0734915a0  vcruntime140.dll
+  a14b4a42a2c6df04d6d53a8340816023d953406f7f3d94996c7cab30c414ff63  vcruntime140_1.dll
+  8d7522a27e03f4976b412da76905a227bb07fbcfd434e0ae482051bd19f5f9ce  model\det.onnx
+  89ba7ff3401f752c1ac7cd5647ebfd2eebb60f3d91ee97f7ead71ec37d332acb  model\rec.onnx
+  d1979e9f794c464c0d2e0b70a7fe14dd978e9dc644c0e71f14158cdf8342af1b  model\dict.txt
+  a96e79c6aca31e6c0699d02274e85bc3ab71259654e6ef7ce7db9c8e2932ace1  model\info.json

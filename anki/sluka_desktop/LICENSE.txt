@@ -1,0 +1,26 @@
+Sluka's add-on for Anki
+=======================
+
+Copyright (c) 2026 Sluka.
+
+This add-on -- __init__.py, config.json, config.md and manifest.json --
+is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free
+Software Foundation, either version 3 of the License, or (at your
+option) any later version.  (Anki asks of its add-ons a licence that
+goes with the GNU AGPL, version 3, as Anki's own; this one does.)
+
+This add-on is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.  You should have received a
+copy of it with Sluka Desktop (LICENSES\GPL-3.0.txt); if not, see
+<https://www.gnu.org/licenses/>.
+
+When Sluka Desktop puts this add-on into Anki, it puts beside it, in
+its web folder, two of the app's own files, shim.js and anki-page.js,
+and in its ext folder a link to (or a copy of) the Sluka extension's
+own files.  Those are Sluka's, and stay under Sluka's terms
+(https://sluka.app/terms): they are the Sluka extension's code, which
+runs in Anki's pages as it runs in a browser, and talks with this
+add-on only through the messages Anki's pages send it (pycmd).

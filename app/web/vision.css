@@ -1,0 +1,64 @@
+/* SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. */
+/*
+ * Sluka Vision's words over a game (bar.css gives the card, the panel and the
+ * message their look, as the floating subtitles have it).  Each line read is
+ * a box laid where the game drew it, tilted as it is; each word in it is a box
+ * of its own along it, which takes the pointer, and is underlined in the
+ * colour of its level -- under it, or left of it in a column of vertical text.
+ * Nothing is written over the game's own letters.
+ */
+
+/* The game's picture, kept while the game is stopped where it is (Sluka Vision's keys): over the game's own window,
+   as wide as it (the words are placed by its width too), the words over it. */
+.vstill { position: absolute; left: 0; top: 0; width: 100%; height: auto; user-select: none; -webkit-user-drag: none; }
+
+.words { position: absolute; inset: 0; }
+
+.vl {
+  position: absolute;
+  box-sizing: border-box;
+  transform-origin: 50% 50%;
+  /* The underline's thickness and its distance from the letters: set from the line's own thickness (vision.js). */
+  --t: 3px;
+  --o: 2px;
+}
+.vl.gone { display: none; }
+
+.vw { position: absolute; border-radius: 3px; cursor: pointer; }
+.vl:not(.v) .vw { top: 0; height: 100%; }
+.vl.v .vw { left: 0; width: 100%; }
+
+.vw::after { content: ''; position: absolute; border-radius: 2px; background: var(--u, transparent); pointer-events: none; }
+.vl:not(.v) .vw::after { left: 1px; right: 1px; top: calc(100% + var(--o)); height: var(--t); }
+.vl.v .vw::after { top: 1px; bottom: 1px; right: calc(100% + var(--o)); width: var(--t); }
+
+/* The word pointed at, and the one clicked: lit, its letters still the game's own. */
+.vw.hov, .vw.pin {
+  background: rgb(var(--hl, 255 255 255) / .24);
+  box-shadow: 0 0 0 1.5px rgb(var(--hl, 255 255 255) / .9), 0 0 0 3px rgb(0 0 0 / .3);
+}
+.vw.pin { background: rgb(var(--hl, 255 255 255) / .32); }
+
+/* What Sluka Vision is doing, at the game's top right corner, while it reads. */
+.vbadge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px 5px 10px;
+  border-radius: 999px;
+  background: rgb(14 14 13 / .88);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 4px 14px rgb(0 0 0 / .3);
+  color: #f2f0eb;
+  font: 600 12px/1.3 var(--ui-font, system-ui, sans-serif);
+  letter-spacing: .01em;
+  pointer-events: none;
+}
+.vbadge i { width: 7px; height: 7px; border-radius: 50%; background: #5cc98a; animation: vbeat 1s ease-in-out infinite; }
+@keyframes vbeat { 50% { opacity: .25; } }
+/* Which way the game is stopped, and its key: at the top left corner, the reading one staying at the right. */
+.vfrozen { left: 12px; right: auto; }
+.vfrozen b { display: block; width: 9px; height: 10px; box-sizing: border-box; border-left: 3px solid #f2f0eb; border-right: 3px solid #f2f0eb; }
+.vfrozen[data-mode='picture'] b { width: 10px; height: 10px; border: 1.5px solid #8fc1ff; border-radius: 2px; background: rgb(143 193 255 / .35); }

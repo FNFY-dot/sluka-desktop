@@ -1,0 +1,585 @@
+/* SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. */
+/*
+ * The floating subtitles: Sluka's subtitle box, card and panel, as Sluka's own
+ * stylesheets set them (content/content.css for the box, content/ui.js for the
+ * card and the panel) -- the same numbers the script in mpv draws by.  What
+ * changes with Sluka's settings (fonts, size, colours, the light or dark card)
+ * is set by bar.js from what Sluka's engine says, as custom properties.
+ *
+ * The page covers the whole screen and is see-through: only what is drawn on
+ * it is seen, and only there does it take the pointer (bar.js tells the app
+ * which parts those are).
+ */
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+[hidden] { display: none !important; }
+
+/* ------------------------------------------------------------ the card's two palettes (content/ui.js .theme) */
+
+.theme {
+  --bg: 255 255 255; --ring: 33 32 28; --ring-a: .14; --ring-small-a: .12;
+  --shade: 33 32 28; --shade-a: .14; --shade-small-a: .12; --shade-near-a: .06;
+  --ink: 33 32 28; --body: 52 51 46; --quiet: 70 69 63; --ink2: 83 82 76; --ink3: 99 98 92;
+  --reading: 36 89 199; --inflection: 88 99 76;
+  --chip: 33 32 28; --chip-a: .06; --edge-a: .52; --kbd-a: .04; --kbd-edge-a: .18;
+  --on: 33 32 28; --on-ink: 255 255 255; --known-dot: 31 154 87; --dot-ring-a: .22;
+  --swatch-edge-a: .35; --lit-shade-a: .35; --lit-edge-a: .12; --hair-a: .09;
+  --accent: 36 89 199; --btn-ink: 33 32 28; --danger: 192 43 28; --caution-soft: 122 79 0; --narrow: 247 168 0;
+  --known-fill: 26 125 68; --refused: 204 51 57;
+  font-family: var(--ui-font, system-ui, sans-serif);
+  color: rgb(var(--ink));
+  -webkit-font-smoothing: antialiased;
+}
+.theme[data-theme='dark'] {
+  --bg: 34 34 33; --ring: 255 255 255; --ring-a: .24; --ring-small-a: .2;
+  --shade: 0 0 0; --shade-a: .36; --shade-small-a: .32; --shade-near-a: .3;
+  --ink: 242 240 235; --body: 222 219 212; --quiet: 214 211 204; --ink2: 181 179 173; --ink3: 154 152 145;
+  --reading: 126 168 255; --inflection: 179 189 166;
+  --chip: 255 255 255; --chip-a: .07; --edge-a: .46; --kbd-a: .06; --kbd-edge-a: .12;
+  --on: 242 240 235; --on-ink: 26 24 21; --known-dot: 92 201 138; --dot-ring-a: 0;
+  --swatch-edge-a: .25; --lit-shade-a: .5; --lit-edge-a: .12; --hair-a: .08;
+  --accent: 107 155 255; --btn-ink: 230 227 220; --danger: 255 156 138; --caution-soft: 255 212 107; --narrow: 255 196 60;
+}
+
+/* ------------------------------------------------------------ the bar */
+
+.bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* Placed by bar.js: its middle at --x, its foot at --y. */
+  transform: translate(calc(var(--x, 50vw) - 50%), calc(var(--y, 90vh) - 100%));
+  width: var(--width, 60vw);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The bar's own width, shown while the pointer is on it: the box is as wide as its text, up to this. */
+.area {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+}
+.bar.on .area { box-shadow: 0 0 0 1px rgb(255 255 255 / .28); background: rgb(8 8 7 / .14); }
+.bar.locked .area, .bar.dragging .area { box-shadow: none; background: none; }
+
+.edge {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  cursor: ew-resize;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.edge::before { content: ''; width: 4px; height: min(26px, 60%); border-radius: 2px; background: rgb(255 255 255 / .6); box-shadow: 0 0 0 1px rgb(0 0 0 / .35); }
+.edge.left { left: -7px; }
+.edge.right { right: -7px; }
+.bar.on:not(.locked) .edge { display: flex; }
+
+/* ------------------------------------------------------------ the subtitle box (content.css .llr-cc, .llr-cc-line) */
+
+.box { position: relative; display: flex; max-width: 100%; }
+
+.cc {
+  --cc-ground: 8 8 7;
+  --cc-ink: 255 255 255;
+  box-sizing: border-box;
+  max-width: 100%;
+  font-family: var(--cc-font, system-ui, 'Segoe UI', Roboto, sans-serif);
+  font-size: var(--E, 38px);
+  font-weight: 500;
+  line-height: var(--lh, 1.34);
+  letter-spacing: var(--sp, .01em);
+  padding: .12em .55em .18em;
+  border-radius: .4em;
+  background: rgb(var(--cc-ground) / var(--cc-bg, .84));
+  color: rgb(var(--cc-ink));
+  text-align: center;
+  text-wrap: balance;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  /* A hairline of light just inside the box's edge. */
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / var(--cc-hair, .06));
+  text-shadow: var(--cc-edges, none);
+  -webkit-font-smoothing: antialiased;
+}
+.cc.light { --cc-ground: 255 255 255; --cc-ink: 17 17 17; box-shadow: none; }
+.cc[data-rtl] { direction: rtl; unicode-bidi: plaintext; }
+
+/* A word: what it wears at its level is set by bar.js (the colours are Sluka's settings). */
+.w {
+  border-radius: .12em;
+  white-space: nowrap;
+}
+.w.hov, .w.pin {
+  outline: .08em solid rgb(var(--cc-ink));
+  outline-offset: .02em;
+}
+
+/* Nothing to show yet: the box says what it is, faintly, so it can be found and placed. */
+.cc.idle { opacity: .62; font-weight: 400; }
+.bar.on .cc.idle { opacity: .9; }
+.cc .hint { display: block; font-size: .42em; line-height: 1.5; opacity: .78; font-weight: 400; letter-spacing: 0; }
+
+/* ------------------------------------------------------------ the bar's own buttons */
+
+.tools {
+  position: absolute;
+  z-index: 2;
+  bottom: calc(100% + 6px);
+  right: 0;
+  display: flex;
+  gap: 1px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgb(14 14 13 / .9);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 4px 14px rgb(0 0 0 / .35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .12s;
+}
+/* The room between the buttons and the bar is the bar's too: the pointer crosses it without leaving. */
+.tools::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 8px; }
+.bar.on .tools { opacity: 1; pointer-events: auto; }
+.bar.covered .tools, .bar.dragging .tools { opacity: 0; pointer-events: none; }
+
+.tools button, .badge {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: transparent;
+  color: rgb(255 255 255 / .86);
+  cursor: pointer;
+}
+.tools button:hover { background: rgb(255 255 255 / .13); color: #fff; }
+.tools button[aria-pressed='true'] { background: rgb(242 240 235); color: rgb(26 24 21); }
+.tools button[data-act='grip'] { cursor: grab; }
+.bar.locked .tools button[data-act='grip'] { display: none; }
+.tools svg, .badge svg { width: 16px; height: 16px; display: block; }
+.tools .sep { width: 1px; margin: 6px 2px; background: rgb(255 255 255 / .16); }
+
+/* Clicks go through the bar: this is the one place that still takes them (and the Ctrl key, everywhere on it). */
+.badge {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  margin-top: -13px;
+  width: 26px;
+  height: 26px;
+  background: rgb(14 14 13 / .8);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / .14);
+  opacity: .55;
+  display: none;
+}
+.badge:hover { opacity: 1; }
+.bar.through .badge { display: grid; }
+.bar.through .area { pointer-events: auto; }
+
+/* ------------------------------------------------------------ a message of Sluka's (the free allowance, ...) */
+
+.toast {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: 520px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgb(14 14 13 / .92);
+  box-shadow: 0 0 0 1px rgb(255 255 255 / .12), 0 6px 20px rgb(0 0 0 / .35);
+  color: #f2f0eb;
+  font: 500 13px/1.35 var(--ui-font, system-ui, sans-serif);
+  text-align: center;
+}
+
+/* ------------------------------------------------------------ the card and the panel (content/ui.js .glance, .panel) */
+
+.card, .panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  /* A page blurs what is behind its panel; nothing here can, so the ground is a little more solid than a page's nine tenths. */
+  background: rgb(var(--bg) / .95);
+  overflow-wrap: anywhere;
+}
+.card {
+  padding: 8px 12px 9px;
+  border-radius: 14px;
+  max-width: 320px;
+  box-shadow: 0 0 0 1px rgb(var(--ring) / var(--ring-small-a)), 0 8px 26px rgb(var(--shade) / var(--shade-small-a)), 0 1px 2.2px rgb(var(--shade) / var(--shade-near-a));
+  pointer-events: none;
+}
+.card.long { max-width: 440px; }
+
+.panel {
+  width: 360px;
+  max-height: var(--panel-max, 560px);
+  display: flex;
+  flex-direction: column;
+  padding-top: 7px;
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgb(var(--ring) / var(--ring-a)), 0 12px 34px rgb(var(--shade) / var(--shade-a)), 0 1px 2.2px rgb(var(--shade) / var(--shade-near-a));
+}
+
+/* The headword, kana over its kanji. */
+.head {
+  font-family: var(--word-font, Georgia, 'Times New Roman', serif);
+  font-weight: 400;
+  letter-spacing: -.005em;
+  color: rgb(var(--ink));
+  white-space: nowrap;
+}
+.head rt {
+  font-family: var(--ui-font, system-ui, sans-serif);
+  font-size: .42em;
+  line-height: 1.1;
+  letter-spacing: 0;
+  color: rgb(var(--reading));
+}
+
+/* The reading, a Japanese one with its pitch drawn over the kana. */
+.reading { color: rgb(var(--reading)); letter-spacing: .01em; white-space: nowrap; }
+.reading .pos { font-size: 12px; font-weight: 500; color: rgb(var(--ink3)); margin-right: 4px; letter-spacing: 0; }
+.reading .dot { margin: 0 .3em; }
+.reading .gap { display: inline-block; width: 8px; }
+.pitch { display: inline-block; line-height: 1.25; padding-top: 5px; }
+.beat { position: relative; display: inline-block; }
+.beat.hi::before { content: ''; position: absolute; left: 0; right: 0; top: -5px; height: 2px; background: currentColor; }
+.beat.hi.rise::before { left: 2px; }
+.beat.drop { padding-right: 2px; }
+.beat.drop::after { content: ''; position: absolute; right: 0; top: -5px; width: 2px; height: .42em; background: currentColor; }
+.beat.tail { margin-right: 9px; }
+.beat.tail::after {
+  content: ''; position: absolute; left: 100%; top: -5px; width: 9px; height: 2px;
+  background: linear-gradient(to right, transparent 2px, currentColor 2px 5px, transparent 5px 7px, currentColor 7px 9px);
+}
+.pitch .n { margin-left: 4px; font-size: max(12px, .8em); font-weight: 600; color: rgb(var(--ink3)); }
+
+/* The level, with a dot of the colour it has on a page. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background: rgb(var(--chip) / var(--chip-a));
+  font-weight: 600;
+  color: rgb(var(--quiet));
+  white-space: nowrap;
+  letter-spacing: 0;
+}
+.chip i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: 4px;
+  background: var(--dot, rgb(var(--ink3)));
+  box-shadow: 0 0 0 1px rgb(33 32 28 / var(--dot-ring-a));
+}
+.chip i.square { border-radius: 2px; box-shadow: none; }
+.chip i.flat { border-radius: 0; box-shadow: none; }
+
+/* -- the card */
+
+.card .top { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
+.card .head { font-size: 21px; line-height: 26.25px; }
+.card .reading { font-size: 13px; line-height: 18.2px; }
+.card .lead, .card .more, .card .none {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card .lead { margin-top: 3px; font-size: 19px; line-height: 24.7px; font-weight: 600; -webkit-line-clamp: 3; }
+.card .lead.long { font-size: 16px; line-height: 21.6px; -webkit-line-clamp: 5; }
+.card .none { margin-top: 3px; font-size: 14px; line-height: 19.6px; color: rgb(var(--ink2)); -webkit-line-clamp: 2; }
+.card .more { margin-top: 1px; font-size: 14px; line-height: 19.6px; color: rgb(var(--ink2)); -webkit-line-clamp: 3; }
+.card .foot { display: flex; align-items: center; margin-top: 6px; height: 17.3px; white-space: nowrap; }
+.card .chip { height: 17px; padding: 0 7px 0 6px; font-size: 11px; }
+.card .rank { margin-left: 6px; font-size: 12px; color: rgb(var(--ink2)); overflow: hidden; text-overflow: ellipsis; }
+
+/* -- the panel */
+
+.panel .ph { position: relative; padding: 0 44px 0 16px; }
+.panel .head { font-size: 30px; line-height: 30px; }
+/* The speaker, in the head's top left corner, the word beside it (content/ui.js .head > .say): the reading's colour,
+   filled in while the word is said. */
+.panel .ph > .say {
+  display: inline-grid;
+  place-items: center;
+  /* On the word's own line, level with it (and under its furigana, not with them): centred on the word's em box. */
+  vertical-align: 2px;
+  width: 28px;
+  height: 28px;
+  margin: 0 8px 0 -1px;
+  border: 0;
+  padding: 0;
+  border-radius: 999px;
+  color: rgb(var(--reading));
+  background: rgb(var(--reading) / .1);
+  cursor: pointer;
+}
+.panel .ph > .say:hover { background: rgb(var(--reading) / .18); }
+.panel .ph > .say[data-active] { background: rgb(var(--reading)); color: rgb(var(--bg)); }
+.panel .ph > .say svg { width: 14px; height: 14px; }
+.panel .close {
+  position: absolute;
+  right: 8px;
+  top: -2px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  padding: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgb(var(--ink3));
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.panel .close:hover { background: rgb(var(--chip) / var(--chip-a)); color: rgb(var(--ink)); }
+.panel .close svg { width: 11px; height: 11px; }
+/* The head's keys, left of the close button (content/ui.js .head .keys): Translate, Look up, Anki. */
+.panel .keys { position: absolute; right: 40px; top: -2px; display: flex; gap: 2px; }
+.panel .head-key {
+  height: 28px;
+  min-width: 28px;
+  border: 0;
+  padding: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: rgb(var(--ink3));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
+}
+.panel .head-key:hover, .panel .head-key[aria-expanded="true"] { background: rgb(var(--chip) / var(--chip-a)); color: rgb(var(--ink)); }
+.panel .head-key svg { width: 18px; height: 18px; }
+.panel .look-key { padding: 0 4px 0 5px; }
+.panel .look-key .caret { font-size: 10px; opacity: 0.8; }
+.panel .anki-key[data-state="in"] { color: #22c55e; }
+.panel .anki-key[data-state="queued"] { color: rgb(var(--ink)); }
+/* The AI check's ✦ (content/ui.js .ai-key): the reading's blue. */
+.panel .ai-key .glyph { font-size: 15px; line-height: 1; color: rgb(var(--reading)); }
+.panel .ph:has(.keys) { padding-right: calc(44px + 30px * var(--keys, 1) + 6px); }
+/* The Look up menu: the sites, and their dictionaries offline, as rows under the head. */
+.panel .look-menu { display: flex; flex-direction: column; margin: 8px 0 2px -4px; padding: 4px; border-radius: 10px; background: rgb(var(--chip) / var(--chip-a)); }
+.panel .ph:has(.keys) .look-menu { margin-right: calc(-38px - 30px * var(--keys, 1)); }
+.panel .look-menu .site {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  border: 0; background: transparent; color: rgb(var(--ink)); text-align: left;
+  font: inherit; font-size: 0.86em; padding: 5px 8px; border-radius: 7px; cursor: pointer;
+}
+.panel .look-menu .site:hover { background: rgb(var(--ink) / 0.08); }
+.panel .look-menu .offline { color: rgb(var(--ink2)); }
+.panel .look-menu .state { font-size: 0.85em; color: rgb(var(--ink3)); }
+.panel .look-menu .state.in { color: #22c55e; }
+/* Google's translation, once asked for. */
+.panel .gtr { margin: 2px 12px 8px; padding: 6px 10px; border-radius: 9px; background: rgb(var(--chip) / var(--chip-a)); }
+.panel .gtr-by { display: block; font-size: 0.72em; color: rgb(var(--ink3)); letter-spacing: 0.02em; }
+.panel .gtr-text { font-weight: 600; }
+.panel .gtr-text.wait, .panel .gtr-text.none { font-weight: 400; color: rgb(var(--ink3)); }
+.panel .gtr-alt { font-size: 0.86em; color: rgb(var(--ink3)); }
+.panel .gtr-pos { margin-right: 6px; font-style: italic; }
+.panel .sub { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; padding: 2px 16px 3px; }
+.panel .reading { font-size: 15px; line-height: 19.5px; }
+.panel .chip { height: 18px; padding: 0 8px 0 6px; font-size: 11.5px; }
+.panel .rank { font-size: 12.5px; line-height: 16.25px; color: rgb(var(--ink3)); white-space: nowrap; }
+/* How many times the word was looked up (👀), beside its rank: the one note in the head that is about you. */
+.panel .looks { font-size: 12.5px; line-height: 16.25px; color: rgb(var(--ink3)); white-space: nowrap; }
+
+.panel .ph, .panel .sub, .panel .levels, .panel .legend, .panel .foot { flex: none; }
+.panel .body { flex: 1 1 auto; min-height: 60px; padding: 6px 0 4px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+.panel .form {
+  padding: 0 16px;
+  height: 21px;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgb(var(--inflection));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.panel .sense { position: relative; padding: 4px 16px 4px 36px; font-size: 15px; line-height: 22.5px; color: rgb(var(--body)); }
+.panel .sense.mine { color: rgb(var(--ink)); }
+.panel .sense + .sense::before { content: ''; position: absolute; left: 36px; right: 16px; top: 0; height: 1px; background: rgb(var(--chip) / var(--hair-a)); }
+.panel .sense + .sense { padding-top: 5px; }
+.panel .sense .n { position: absolute; right: calc(100% - 31px); font-size: 12px; color: rgb(var(--ink3)); }
+.panel .sense .t { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
+.panel .none { padding: 4px 16px 2px; font-size: 14px; line-height: 21px; color: rgb(var(--ink2)); }
+.panel .also { padding: 6px 16px 0; height: 18px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgb(var(--ink2)); font-size: 12.5px; }
+.panel .also .label { font-size: 12px; font-weight: 600; color: rgb(var(--ink3)); margin-right: 8px; }
+.panel .also .label.blank { visibility: hidden; }
+.panel .also .ah { font-size: 13px; color: rgb(var(--reading)); margin-right: 8px; }
+.panel .left { padding: 2px 36px; font-size: 12px; line-height: 16px; font-weight: 600; color: rgb(var(--ink3)); }
+
+/*
+ * Your own dictionaries, each under its name (content/ui.js .reading-group.rg-dict): drawn as that dictionary lays
+ * it out -- its lists, tables and folded parts -- in the panel's sizes and colours, with its own stylesheet held
+ * inside it (.rg-dict[data-dict] .od-sc).
+ */
+.panel .own-dicts { padding: 2px 16px 4px; font-size: 14.5px; line-height: 1.5; color: rgb(var(--body)); }
+.panel .reading-group + .reading-group { margin-top: 10px; }
+.panel .rg-tag { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1.5; padding: 0 7px; border-radius: 999px;
+  background: rgb(var(--chip) / var(--chip-a)); color: rgb(var(--accent)); margin-bottom: 4px; }
+.panel .od-entry + .od-entry { margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgb(var(--chip) / var(--hair-a)); }
+.panel .od-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 2px; }
+.panel .od-hw { font-family: var(--word-font, serif); color: rgb(var(--ink)); }
+.panel .od-reading { font-size: 13px; font-weight: 500; color: rgb(var(--reading)); }
+.panel .od-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 1px 0 3px; }
+.panel .od-tag, .panel .rg-dict .od-abbr { font-size: 11px; line-height: 1.5; padding: 0 6px; border-radius: 999px;
+  background: rgb(var(--chip) / .1); color: rgb(var(--ink2)); }
+.panel .rg-dict .od-abbr { display: inline-block; margin: 0 4px 2px 0; cursor: help; }
+.panel .od-def, .panel .od-defs { color: rgb(var(--body)); overflow-wrap: anywhere; }
+.panel .od-defs { margin: 0; padding-left: 20px; }
+.panel .od-form { color: rgb(var(--ink2)); }
+.panel .od-why { color: rgb(var(--ink3)); font-size: 12px; }
+.panel .rg-dict ul { margin: 2px 0 0; padding-left: 18px; }
+.panel .rg-dict table { border-collapse: collapse; margin: 4px 0; font-size: 13px; }
+.panel .rg-dict td, .panel .rg-dict th { padding: 2px 6px; border: 1px solid rgb(var(--chip) / var(--hair-a)); vertical-align: top; }
+.panel .rg-dict details > summary { cursor: pointer; color: rgb(var(--ink2)); font-size: 13px; }
+.panel .rg-dict rt { font-size: 0.6em; color: rgb(var(--reading)); }
+.panel .rg-dict a { color: rgb(var(--accent)); }
+.panel .rg-dict {
+  --text-color: rgb(var(--body)); --fg: rgb(var(--body));
+  --text-color-light1: rgb(var(--ink2)); --text-color-light2: rgb(var(--ink3)); --text-color-light3: rgb(var(--ink3)); --text-color-light4: rgb(var(--ink3));
+  --background-color: rgb(var(--bg)); --canvas: rgb(var(--bg)); --background-color-light: rgb(var(--chip) / var(--chip-a)); --background-color-dark1: rgb(var(--chip) / .1);
+  --accent-color: rgb(var(--accent)); --accent-color-dark: rgb(var(--accent)); --link-color: rgb(var(--accent));
+  --font-size-no-units: 14; --list-padding1: 1em; --list-padding2: 1.4em; --compact-list-separator: " | ";
+}
+.panel.theme[data-theme='dark'] .rg-dict { --od-dark-ink: rgb(var(--body)); }
+.panel.theme:not([data-theme='dark']) .rg-dict { --od-light-ink: rgb(var(--body)); }
+.panel .rg-dict .od-sc-box { contain: paint; }
+.panel .rg-dict .od-sc { overflow-wrap: anywhere; }
+.panel .rg-dict .od-sc li { margin: 0; color: inherit; }
+.panel .rg-dict .od-sc .gloss-sc-table-container { display: block; overflow-x: auto; }
+.panel .rg-dict .od-sc .gloss-sc-table { table-layout: auto; border-collapse: collapse; font-size: inherit; margin: 0; }
+.panel .rg-dict .od-sc .gloss-sc-th, .panel .rg-dict .od-sc .gloss-sc-td { border: 1px solid var(--text-color-light2); padding: 0.25em; vertical-align: top; }
+.panel .rg-dict .od-sc .gloss-sc-ol, .panel .rg-dict .od-sc .gloss-sc-ul { margin: 0; padding-left: var(--list-padding2); }
+.panel .rg-dict .od-sc .gloss-sc-details { padding-left: var(--list-padding1); }
+.panel .rg-dict .od-sc .gloss-sc-summary { list-style-position: outside; color: inherit; font-size: inherit; }
+
+/*
+ * The AI check (content/ui.js .ask, .verdict): the button where nothing answered, with what it sends; and what the
+ * check said, under the meanings.
+ */
+.panel .ask { margin: 6px 0 0; padding: 10px 16px 6px; border-top: 1px solid rgb(var(--chip) / var(--hair-a)); }
+.panel .ask.secondary { padding: 6px 16px 4px; }
+.panel .ask-go {
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 32px; padding: 0 10px;
+  border: 0; border-radius: 8px; background: rgb(var(--chip) / var(--chip-a)); color: rgb(var(--btn-ink));
+  font: inherit; font-size: 13px; font-weight: 500; line-height: 1.2; cursor: pointer;
+}
+.panel .ask-go:hover { background: rgb(var(--chip) / .13); color: rgb(var(--ink)); }
+.panel .verdict + .ask-go { margin-top: 8px; }
+.panel .ask .why { margin-top: 6px; font-size: 12px; color: rgb(var(--ink3)); }
+.panel .ask .spinner { color: rgb(var(--ink2)); font-size: 13px; padding: 2px 0; }
+.panel .ask .err { color: rgb(var(--danger)); font-size: 13px; overflow-wrap: anywhere; }
+.panel .verdict { padding-top: 2px; }
+.panel .vd-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.panel .vd-tag { padding: 2px 9px; font-size: 12px; font-weight: 600; border-radius: 999px; }
+.panel .vd-established { background: rgb(var(--known-fill)); color: #fff; }
+.panel .vd-narrow { background: rgb(var(--narrow) / .2); color: rgb(var(--caution-soft)); }
+.panel .vd-not_a_word { background: rgb(var(--refused)); color: #fff; }
+.panel .vd-uncertain { background: rgb(var(--chip) / .12); color: rgb(var(--btn-ink)); }
+.panel .vd-conf { font-size: 12px; color: rgb(var(--ink3)); }
+.panel .vd-meaning { margin-top: 8px; font-size: 14px; color: rgb(var(--ink)); overflow-wrap: anywhere; }
+.panel .vd-example { margin-top: 8px; padding: 2px 0 2px 10px; border-left: 2px solid rgb(var(--chip) / var(--hair-a)); }
+.panel .vd-ex { font-size: 15px; line-height: 1.45; color: rgb(var(--body)); font-family: var(--word-font, serif); overflow-wrap: anywhere; }
+.panel .vd-ex b { font-weight: 600; color: rgb(var(--ink)); }
+.panel .vd-ex-tr { margin-top: 2px; font-size: 13px; color: rgb(var(--quiet)); }
+.panel .vd-line { margin-top: 4px; font-size: 13px; color: rgb(var(--quiet)); overflow-wrap: anywhere; }
+.panel .vd-line b { color: rgb(var(--ink3)); font-weight: 600; }
+.panel .vd-own { margin-top: 10px; padding-top: 8px; border-top: 1px solid rgb(var(--chip) / var(--hair-a)); }
+.panel .vd-own b { display: block; font-size: 12px; font-weight: 600; color: rgb(var(--ink3)); }
+.panel .vd-own-text { margin-top: 3px; font-size: 13.5px; line-height: 1.45; color: rgb(var(--ink)); white-space: pre-line; overflow-wrap: anywhere; }
+
+/* The six levels, the word's own filled in its colour; under them the keys that do the same. */
+.levels {
+  display: flex;
+  gap: 2px;
+  margin: 6px 12px 0;
+  padding: 2px;
+  height: 34px;
+  box-sizing: border-box;
+  border-radius: 17px;
+  background: rgb(var(--chip) / var(--chip-a));
+  box-shadow: inset 0 0 0 1px rgb(var(--chip) / var(--edge-a));
+}
+.levels button {
+  appearance: none;
+  border: 0;
+  margin: 0;
+  padding: 0 4px;
+  height: 30px;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: 15px;
+  background: transparent;
+  color: rgb(var(--ink));
+  font: 600 13px/30px var(--ui-font, system-ui, sans-serif);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+}
+.levels button.wide { flex-grow: 1.55; }
+.levels button:not(.lit):hover { background: rgb(var(--chip) / var(--chip-a)); }
+.levels button.lit {
+  background: var(--fill, rgb(var(--on)));
+  color: var(--fill-ink, rgb(var(--on-ink)));
+  box-shadow: 0 1px 2.6px rgb(0 0 0 / var(--lit-shade-a)), inset 0 0 0 1px rgb(0 0 0 / var(--lit-edge-a));
+}
+.levels .sw {
+  flex: none;
+  width: 14px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 2px;
+  background: var(--sw, #fff);
+  box-shadow: inset 0 0 0 1px rgb(var(--chip) / var(--swatch-edge-a)), inset 0 -2px 0 var(--sw-line, transparent);
+}
+.legend { margin: 4px 16px 0; height: 16px; font-size: 11px; line-height: 16px; color: rgb(var(--ink3)); white-space: nowrap; overflow: hidden; }
+.legend .k {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 14px;
+  height: 15px;
+  padding: 0 3px;
+  margin-top: .5px;
+  vertical-align: top;
+  border-radius: 4px;
+  background: rgb(var(--chip) / var(--kbd-a));
+  box-shadow: inset 0 0 0 1px rgb(var(--chip) / var(--kbd-edge-a)), inset 0 -1px 0 rgb(var(--chip) / var(--kbd-edge-a));
+  font-weight: 600;
+  line-height: 15px;
+  text-align: center;
+  color: rgb(var(--quiet));
+}
+.legend .sp { display: inline-block; width: 3.2px; }
+.panel .foot { height: 6px; }

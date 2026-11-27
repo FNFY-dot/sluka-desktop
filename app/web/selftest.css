@@ -1,0 +1,15 @@
+/* SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. */
+:root { color-scheme: light dark; }
+body { font: 15px/1.45 system-ui, sans-serif; margin: 0; background: Canvas; color: CanvasText; }
+main { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+h1 { font-size: 1.35rem; margin: 0 0 .35rem; }
+#lede { margin: 0 0 1rem; opacity: .75; }
+table { border-collapse: collapse; width: 100%; }
+td { padding: .35rem .6rem .35rem 0; vertical-align: top; border-top: 1px solid color-mix(in srgb, CanvasText 14%, transparent); }
+td.state { white-space: nowrap; font-weight: 600; width: 4.2rem; }
+td.name { width: 38%; }
+td.detail { overflow-wrap: anywhere; opacity: .85; font-size: .93em; }
+tr.ok td.state { color: #1a8a3c; }
+tr.FAIL td.state { color: #c62828; }
+tr.note td.state { color: #b26a00; }
+#end { margin-top: 1.25rem; font-weight: 600; }

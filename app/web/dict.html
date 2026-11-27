@@ -1,0 +1,27 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sluka — dictionary</title>
+<link rel="stylesheet" href="/__sluka__/dict.css">
+<script type="module" src="/__sluka__/dict.js"></script>
+</head>
+<body>
+<!--
+  An offline dictionary of the word panel's Look up key (dictionaries.py), in a
+  small window of Sluka's own: installed on a click, from its makers' own site,
+  and read here with nothing sent anywhere.  Whose it is, and under which
+  licence, is said at its foot.
+-->
+<header>
+  <form id="find" autocomplete="off">
+    <input id="q" type="search" spellcheck="false" aria-label="Look up">
+    <button type="submit">Look up</button>
+  </form>
+  <span id="name" class="name"></span>
+</header>
+<main id="main"><p class="quiet">…</p></main>
+<footer id="foot"></footer>
+</body>
+</html>

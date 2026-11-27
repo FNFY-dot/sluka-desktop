@@ -1,0 +1,29 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sluka Vision</title>
+<link rel="stylesheet" href="/__sluka__/bar.css">
+<link rel="stylesheet" href="/__sluka__/vision.css">
+<script type="module" src="/__sluka__/vision.js"></script>
+</head>
+<body>
+<!--
+  Sluka Vision: the words of a game's whole window, laid over the game where
+  they sit -- each word you are learning underlined in its level's colour, its
+  card when it is pointed at, its panel when it is clicked.  The window is
+  see-through and as large as the game's; vision.js says which parts of it
+  are drawn on, and only there does it take the pointer.  While the game is
+  stopped where it is (its keys), its picture kept is laid under the words,
+  over the whole window.
+-->
+<img id="still" class="vstill" alt="" draggable="false" hidden>
+<div id="words" class="words"></div>
+<div id="frozen" class="vbadge vfrozen" hidden><b></b><span></span></div>
+<div id="badge" class="vbadge" hidden><i></i><span></span></div>
+<div id="card" class="card theme" data-theme="dark" hidden></div>
+<div id="panel" class="panel theme" data-theme="dark" hidden></div>
+<div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

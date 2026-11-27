@@ -1,0 +1,361 @@
+SLUKA DESKTOP: LICENCE AGREEMENT
+================================
+
+Sluka Desktop -- the program, its Setup, and the files that come with
+them -- is part of Sluka, which is made in Gothenburg, Sweden.
+Copyright (c) 2026 Sluka.  All rights reserved, except as this
+agreement says.
+
+Read this before you install or use Sluka Desktop.  By ticking "I
+accept the licence agreement" in Setup, or by installing or using
+Sluka Desktop, you agree to it.
+
+
+1. SLUKA'S TERMS
+
+   You may use Sluka Desktop under Sluka's terms of use,
+   https://sluka.app/terms, as you use the Sluka extension.  Where
+   those terms and this agreement say different things about Sluka
+   Desktop, this agreement is what counts.  It does not change what
+   Sluka's terms say about the Sluka extension, or about a licence for
+   Sluka.
+
+
+2. CREDIT, AND THE NOTICES
+
+   Sluka Desktop stands on others' work, with thanks: above all that
+   of HIllya51 and LunaTranslator's contributors, whose LunaHook --
+   building on Artikash's Textractor -- reads the text of games; that
+   of the makers of PaddleOCR, OpenCV and Microsoft's ONNX Runtime,
+   which read the screen; and that of the Go authors, as Setup is
+   built with Go.  Their software comes with Sluka Desktop under its
+   own licences, and some of Sluka Desktop's own files are free
+   software, under the GNU General Public License: you need not accept
+   this agreement to receive, run, copy, change or share any of these,
+   and nothing in this agreement, or in Sluka's terms, limits what
+   those licences let you do.  Microsoft's C++ runtime files, which
+   the engine and the OCR need, come with Sluka Desktop on Microsoft's
+   terms instead, and those terms are part of this agreement.
+   NOTICES.txt, beside this file, says the rest: which software is
+   where, who made it, under which licence it comes, and where its
+   source code is (LunaTranslator's, complete, is in engine\source);
+   Microsoft's terms; and what Sluka Desktop does on your computer,
+   and what it sends where.
+
+
+3. NO WARRANTY
+
+   As far as the law allows, Sluka Desktop is provided "as is",
+   without warranty of any kind; Sluka's terms say the rest.  The
+   software in 2 comes with its own licences' terms on warranty and
+   liability.
+
+
+4. THE LAW
+
+   Swedish law applies to this agreement.  If you are a consumer, you
+   keep the protection that the mandatory rules of the country where
+   you live give you, and you may take a dispute to Sweden's National
+   Board for Consumer Disputes, Allmänna reklamationsnämnden (ARN).
+
+
+SLUKA DESKTOP: NOTICES
+======================
+
+Sluka Desktop's licence agreement, LICENSE.txt, points here for the
+rest: what Sluka Desktop does on your computer, and what it sends
+where (1); which of its own files are free software (2); on which
+terms Microsoft's C++ runtime files come with it -- terms that are
+part of the agreement (3); what it uses but does not include (4); and,
+file by file, whose software is in it, who made it, under which
+licence it comes, and where its source code is (5 and 6).  The licence
+texts are in the LICENSES folder beside this file, and in
+engine\LICENSES (LunaTranslator's own collection, as LunaTranslator
+ships it).
+
+Names of products here are their owners' trademarks.  Sluka Desktop is
+not made, endorsed or supported by any of them.
+
+
+1. WHAT SLUKA DESKTOP DOES ON YOUR COMPUTER, AND WHAT IT SENDS
+-------------------------------------------------------------
+
+- Game text (the Game tab of the game text menu) puts LunaHook into
+  the game you choose, to read its text.  Some games forbid that in
+  their own terms -- online games, and games with anti-cheat software,
+  above all -- and may ban an account for it.  Use it only with games
+  that allow it.
+- Sluka Desktop reads the screen or the clipboard only while you have
+  the Screen tab, the Clipboard tab or Sluka Vision on, and keeps what
+  it reads on your computer.
+- Anki cards of a game's lines: while the floating subtitles have a
+  game hooked, or Sluka Vision reads a game's window, Sluka Desktop
+  keeps the last minute of that game's own sound -- its alone -- in
+  memory, and lets it go with the game; when you add a word to Anki,
+  it takes a picture of the game's window.  A word added in mpv takes
+  the frame on screen (a file in the temporary folder, deleted once
+  read) and reads its line's sound out of the film's file.  The clip
+  and the picture go only onto that word's card, through AnkiConnect,
+  into your own Anki (kept by Sluka until the card is made); nothing
+  of them is sent anywhere else.
+- The word panel's Look up key opens its dictionary sites in a small
+  window of Sluka's own, whose web data (cookies and the like) are
+  kept apart from the app's; each site's own terms apply to it.  A
+  dictionary installed for offline use is downloaded when you ask for
+  it, from its makers' own site, and kept under its own licence in the
+  app's data folder: Wiktionary's entries from kaikki.org (CC BY-SA
+  4.0 and GFDL), JMdict from the Electronic Dictionary Research and
+  Development Group (CC BY-SA 4.0), CC-CEDICT from MDBG (CC BY-SA
+  4.0), CC-Canto from Pleco Software (CC BY-SA 3.0) and Folkets
+  lexikon from KTH (CC BY-SA 2.5).  None of them comes with Sluka
+  Desktop.  The Translate key sends the word to Google Translate, as
+  the extension's does, and the speaker, where no cloud voice is set
+  up, asks Google Translate's voice to say it.
+- Google Lens -- Sluka Vision's first reader, and one the Screen tab
+  can be set to -- works online: each picture it reads is sent to
+  Google, and Google's terms of service and privacy policy apply to
+  it.  Google Lens is not a service that Google offers to other
+  programs: Sluka reaches it the way Google's own Lens web page does,
+  which Google has not agreed to, and Google may stop it at any time.
+  Sluka asks you before Google Lens first reads; until you say yes,
+  and if you say no, an offline reader reads instead.
+- Sluka Desktop itself sends no statistics, and nothing else about you
+  or about how you use it.  ONNX Runtime, the engine of Sluka's own
+  OCR, is made by Microsoft to note how it is used, for Microsoft, in
+  Windows' own diagnostic data; Sluka turns that off before its OCR
+  starts.  ("sluka selftest", if you run it, looks whether a website,
+  example.org, can be reached.)  The Sluka extension's own online
+  features work as they do in a browser, under Sluka's terms.
+
+
+2. THE PARTS OF SLUKA DESKTOP THAT ARE FREE SOFTWARE
+---------------------------------------------------
+
+Sluka Desktop's own files are under Sluka's terms (LICENSE.txt),
+except these, which are free software: you may run, study, change and
+share them under the GNU General Public License, published by the Free
+Software Foundation (LICENSES\GPL-3.0.txt).
+
+  app\sluka_desktop\hookd.py   runs Sluka's engine for game text
+  app\sluka_desktop\ocrd.py    runs the screen readers (OCR)
+      These two: version 3 of the licence, as LunaTranslator, whose
+      code they use, is.
+
+  mpv\sluka.lua                Sluka's script for mpv
+  anki\sluka_desktop\          Sluka's add-on for Anki
+      These: version 3, or (at your choice) any later version.
+
+They come WITHOUT ANY WARRANTY; see the licence.  Their source code is
+the files themselves, and each says at its top which licence it is
+under.  (When Setup puts the add-on into Anki, two of the app's own
+files go with it, web\shim.js and web\anki-page.js: they stay under
+Sluka's terms -- anki\sluka_desktop\LICENSE.txt says more.)  You need
+not accept Sluka Desktop's licence agreement to receive, run, copy,
+change or share these parts: the GNU General Public License alone says
+what you may do with them.
+
+Some of Sluka's own files follow others' published interfaces: ocrd.py
+writes and reads Google Lens' messages as Chromium's lens_overlay
+protos define them (BSD licence, The Chromium Authors:
+engine\LICENSES\LICENSE.chromium.chromium), and
+app\sluka_desktop\webview2.py reaches WebView2 as Microsoft's
+WebView2.h declares it (WebView2 SDK, BSD licence:
+LICENSES\WebView2-SDK.txt).  No code of LunaTranslator's, or of
+YomiNinja's, is in Sluka's own files under Sluka's terms.
+
+
+3. MICROSOFT'S VISUAL C++ RUNTIME FILES
+--------------------------------------
+
+engine\msvcp140.dll, vcruntime140.dll, vcruntime140_1.dll, and
+engine\ocr\concrt140.dll, msvcp140.dll, msvcp140_1.dll,
+vcruntime140.dll, vcruntime140_1.dll are Microsoft's: (c) Microsoft
+Corporation, the Visual C++ Redistributable's files.  They are
+licensed, not sold, and come with Sluka Desktop under Microsoft's terms
+for Visual Studio, which let them go with the programs that need them.
+As part of Sluka Desktop's licence agreement: you may use them only
+with Sluka Desktop.  You may not change them; reverse engineer,
+decompile or disassemble them, except where, and only as far as, the
+law allows that despite this limit; or copy or share them apart from
+Sluka Desktop.  Microsoft gives no warranty for them and, as far as the
+law allows, is not liable for any damages that come from them.
+
+
+4. NOT PART OF SLUKA DESKTOP
+---------------------------
+
+Python, mpv, Anki, Windows' web view (the WebView2 Runtime), Tor and
+the Sluka extension are your own, installed apart from Sluka Desktop,
+under their own licences; Sluka Desktop uses them where they are.
+
+
+5. LUNATRANSLATOR 12.1.3.12: the engine and engine\ocr folders
+--------------------------------------------------------------
+
+The files in the engine folder and in engine\ocr (except Microsoft's
+C++ runtime files, in 3) are LunaTranslator's, by HIllya51 and
+LunaTranslator's contributors, exactly as LunaTranslator 12.1.3.12
+ships them: Copyright (C) 2026 HIllya51.  They are free software,
+under the GNU General Public License, version 3
+(engine\LICENSES\LICENSE.LunaTranslator; LICENSES\GPL-3.0.txt is the
+same text).  LunaHook builds on Textractor, by Artikash (GNU GPL 3:
+engine\LICENSES\LICENSE.Artikash.Textractor).
+
+Their source code: engine\source\LunaTranslator-12.1.3.12.zip is the
+complete source of LunaTranslator 12.1.3.12, the version these files
+are from; it is also at
+https://github.com/HIllya51/LunaTranslator/tree/v12.1.3.12 (commit
+7772ec7bb186bd3773bb534dcbc8655a4a364150).  The libraries built into
+these files are fetched by that source's build files (CMake) from their
+own makers, at the versions said below for each.
+
+Built into the files, besides LunaTranslator's own code:
+
+  engine\LunaHost64.dll  (LunaHook's host)
+    uchardet, Copyright 1998, 2001, 2005 Netscape Communications
+    Corporation and 2011 BYVoid: under the Mozilla Public License 1.1,
+    or the GNU GPL 2 or later, or the GNU LGPL 2.1 or later
+    (LICENSES\uchardet.txt; the GPL is the one LunaHook takes it
+    under).  https://gitlab.freedesktop.org/uchardet/uchardet, commit
+    06029ec3340cdf6bf9a6a537dafb3f39eda0560e, changed as
+    src\NativeImpl\LunaHook\LunaHost\libuchardet.cmake says.
+
+  engine\LunaHook32.dll, engine\LunaHook64.dll  (put into a game)
+    MinHook, Copyright (C) 2009-2017 Tsuda Kageyu: a BSD licence
+    (engine\LICENSES\LICENSE.TsudaKageyu.minhook).
+    https://github.com/TsudaKageyu/minhook
+
+  engine\LunaTmpFontLoader.dll  (fonts for Unity games)
+    LunaTranslator's own (C#), with nothing of others' in it.
+
+  engine\LunaSubprocess32.exe, engine\LunaSubprocess64.exe  (put the
+  hook into a game)
+    cpp-base64, Copyright (C) 2004-2017, 2020-2022 René Nyffenegger:
+    a zlib-style licence, which asks nothing of programs built with
+    it.  https://github.com/ReneNyffenegger/cpp-base64
+    File Locksmith's interop, from Microsoft's PowerToys: the MIT
+    License (engine\LICENSES\LICENSE.microsoft.PowerToys).
+    LunaSubprocess64.exe: the C++ part of Microsoft's Speech SDK
+    (Microsoft.CognitiveServices.Speech 1.41.1).  The SDK itself, which
+    LunaTranslator can use for speech, does not come with Sluka
+    Desktop, and Sluka never uses it.
+    LunaSubprocess32.exe: sherpa-onnx's C++ interface, by k2-fsa: the
+    Apache License 2.0 (engine\LICENSES\LICENSE.k2-fsa.sherpa-onnx).
+    Its library does not come with Sluka Desktop.
+    LunaSubprocess64.exe also holds LunaTranslator's way of running
+    the OCR inside Windows 11's Snipping Tool, after b1tg's
+    win11-oneocr (https://github.com/b1tg/win11-oneocr); Sluka never
+    runs it, and nothing of the Snipping Tool comes with Sluka
+    Desktop.
+
+  engine\ocr\CVUtils.dll  (Sluka's own OCR)
+    OpenCV 4.7.0 (its core and imgproc parts), by the OpenCV team and
+    its contributors: the Apache License 2.0
+    (engine\LICENSES\LICENSE.opencv.opencv), built by RapidAI's
+    OpenCVBuilder:
+    https://github.com/RapidAI/OpenCVBuilder/releases/tag/4.7.0
+    zlib 1.2.13, inside OpenCV, Copyright (C) 1995-2022 Jean-loup
+    Gailly and Mark Adler: the zlib licence (LICENSES\zlib.txt).
+    Clipper2, by Angus Johnson: the Boost Software License 1.0
+    (engine\LICENSES\LICENSE.AngusJohnson.Clipper2).
+    https://github.com/AngusJohnson/Clipper2
+    The OCR's steps after RapidOcrOnnx, by RapidAI: the Apache License
+    2.0 (engine\LICENSES\LICENSE.RapidAI.RapidOcrOnnx).
+
+  engine\ocr\NativeUtils.dll  (LunaTranslator's Windows helpers)
+    Protocol Buffers 3.21.12, Copyright 2008 Google Inc.: a BSD licence
+    (LICENSES\protobuf.txt).
+    https://github.com/protocolbuffers/protobuf/tree/v3.21.12
+    Google Lens' messages, as Chromium defines them, Copyright 2024 The
+    Chromium Authors: a BSD licence
+    (engine\LICENSES\LICENSE.chromium.chromium).
+    MeCab, Copyright (c) 2001-2008 Taku Kudo and (c) 2004-2008 Nippon
+    Telegraph and Telephone Corporation: the BSD licence, the GNU LGPL
+    2.1 or the GNU GPL 2 (LICENSES\MeCab.txt).
+    https://github.com/HIllya51/mecab
+    The loader of Microsoft's WebView2 SDK (Microsoft.Web.WebView2
+    1.0.4129.50), Copyright (C) Microsoft Corporation: a BSD licence
+    (LICENSES\WebView2-SDK.txt).
+    md4c, Copyright (c) 2016-2026 Martin Mitáš: the MIT License
+    (engine\LICENSES\LICENSE.mity.md4c).  https://github.com/mity/md4c
+    rapidfuzz-cpp, Copyright (c) 2020 Max Bachmann and (c) 2011 Adam
+    Cohen: the MIT License
+    (engine\LICENSES\LICENSE.rapidfuzz.rapidfuzz-cpp).
+    tiny-AES-c, by kokke: in the public domain (the Unlicense:
+    engine\LICENSES\LICENSE.kokke.tiny-AES-c).
+    NativeUtils.dll also holds LunaTranslator's way of using WeChat's
+    OCR, after swigger's wechat-ocr (https://github.com/swigger/
+    wechat-ocr), and can use un4seen's BASS audio library.  Sluka never
+    uses either, and neither WeChat's OCR nor BASS comes with Sluka
+    Desktop.
+
+  engine\ocr\onnxruntime.dll
+    ONNX Runtime 1.24.4, the DirectML build (Microsoft.ML.OnnxRuntime.
+    DirectML), Copyright (c) Microsoft Corporation: the MIT License
+    (engine\LICENSES\LICENSE.microsoft.onnxruntime).  It is built with
+    others' software too, which LICENSES\ONNX-Runtime-notices.txt
+    lists.  https://github.com/microsoft/onnxruntime/tree/v1.24.4
+    Microsoft's builds of ONNX Runtime note how they are used, as trace
+    events of Windows' own (ETW), which Windows may send to Microsoft
+    with its diagnostic data, as Windows' privacy settings allow
+    (Microsoft's privacy statement:
+    https://go.microsoft.com/fwlink/?LinkID=824704).  Sluka Desktop
+    turns those events off, through ONNX Runtime's own
+    DisableTelemetryEvents, before its OCR starts.
+
+  engine\ocr\model\det.onnx, rec.onnx, dict.txt
+    PaddleOCR's PP-OCRv5 mobile models, Copyright (c) 2016 PaddlePaddle
+    Authors: the Apache License 2.0
+    (engine\LICENSES\LICENSE.PaddlePaddle.PaddleOCR).
+    https://github.com/PaddlePaddle/PaddleOCR
+
+engine\LICENSES holds the licences of everything LunaTranslator as a
+whole is built from, as LunaTranslator ships them; some of those
+projects are not in the files above.  One of its files,
+LICENSE.uchardet.uchardet, is a web page saved by mistake when
+LunaTranslator was built, not uchardet's licence: LICENSES\uchardet.txt
+is.
+
+
+6. SETUP: Sluka Desktop Setup.exe
+---------------------------------
+
+Setup is Sluka's own (LICENSE.txt), built with Go 1.24, whose standard
+library is in it: Copyright 2009 The Go Authors, under a BSD licence,
+with Google's patent grant (LICENSES\Go.txt).  https://go.dev
+
+
+GO, WHICH SETUP IS BUILT WITH
+=============================
+
+Setup (Sluka Desktop Setup.exe) is built with Go, whose standard
+library is in it, under this licence (LICENSES\Go.txt has it too, with
+Google's patent grant for Go):
+
+Copyright 2009 The Go Authors.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+   * Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the
+distribution.
+   * Neither the name of Google LLC nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

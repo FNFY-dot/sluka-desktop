@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: LicenseRef-Sluka -- Copyright (c) 2026 Sluka. Part of Sluka Desktop; see LICENSE.txt. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sluka Desktop — background</title>
+</head>
+<body>
+<!--
+  Sluka's background worker, running as a page.
+
+  In Chrome this file's script is a service worker; in Firefox it is a
+  background page, and that is the form it takes here.  As a page it can hold
+  its helper document (offscreen/analyzer.html) as a hidden frame, which is
+  what the worker does by itself when it finds no chrome.offscreen.
+-->
+<script type="module" src="/__sluka__/bg-ready.js"></script>
+</body>
+</html>

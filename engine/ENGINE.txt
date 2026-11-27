@@ -1,0 +1,63 @@
+Sluka's engine for game text
+============================
+
+The files in this folder are LunaHook, the text hooker of LunaTranslator,
+exactly as LunaTranslator 12.1.3.12 ships them (LunaTranslator_x64.zip).
+Nothing in them has been changed; they are signed by their author.
+
+  LunaHost64.dll          the host: told which game to read, it hears the
+                          game's text  (LunaTranslator: files\LunaHook)
+  LunaHook32.dll          put into a 32-bit or a 64-bit game, it finds the
+  LunaHook64.dll          game's engine and catches its text  (files\LunaHook)
+  LunaTmpFontLoader.dll   fonts for Unity games  (files\LunaHook)
+  LunaSubprocess32.exe    put the hook into a 32-bit or a 64-bit game
+  LunaSubprocess64.exe    ("dllinject")  (files)
+  msvcp140.dll            Microsoft's C++ runtime, which LunaHost64.dll and
+  vcruntime140.dll        LunaSubprocess64.exe need  (files\runtime3.13-64)
+  vcruntime140_1.dll
+
+Sluka Desktop runs them from app\sluka_desktop\hookd.py, a program of its own
+that calls LunaHost64.dll the way LunaTranslator's own
+src\LunaTranslator\textio\textsource\texthook.py does, and puts the hook
+into a game the way LunaTranslator does (LunaSubprocess dllinject).
+
+The ocr folder holds the screen's readers, for the Screen tab of the game
+text menu and Sluka Vision: LunaTranslator's own OCR and its Windows
+helpers, from the same LunaTranslator 12.1.3.12 (ocr\OCR.txt says which,
+with their checksums).
+
+LunaTranslator and LunaHook are by HIllya51 and their contributors.  They are
+free software under the GNU General Public License, version 3: see
+LICENSES\LICENSE.LunaTranslator.  LunaHook builds on Textractor, by Artikash
+(LICENSES\LICENSE.Artikash.Textractor).  The licenses of everything
+LunaTranslator is built from are in LICENSES, as LunaTranslator ships them;
+NOTICES.txt, in Sluka Desktop's own folder, says which of them is in which
+file here, and has what LICENSES lacks (its uchardet file is a web
+page saved by mistake: ..\LICENSES\uchardet.txt is uchardet's licence).
+
+Their source code, the very version these files are from, is in
+source\LunaTranslator-12.1.3.12.zip (LunaHook: src\NativeImpl\LunaHook;
+the injector: src\NativeImpl\LunaSubprocess), and on GitHub:
+
+  https://github.com/HIllya51/LunaTranslator/tree/v12.1.3.12
+  (commit 7772ec7bb186bd3773bb534dcbc8655a4a364150)
+
+The C++ runtime files are Microsoft's, which may go with the programs that
+need them (the Visual C++ Redistributable): NOTICES.txt, 3, in Sluka
+Desktop's own folder, says on which terms.
+
+A text hooker reaches into games, so antivirus programs sometimes take one
+for a threat.  If Windows Security takes one of these files away, allow it in
+its Protection history (or add this folder to its exclusions), and unpack
+Sluka Desktop's zip again.  The files should be these (SHA-256):
+
+  ef9125fd61b7a9e5082ccde0f1d816c81cc414d014505e035546cb624dd1b6f7  LunaHost64.dll
+  1fdbf89f259d1a392006ef7d777495c4c9d775eeddf0e9d64146e358dc75c9bf  LunaHook32.dll
+  af7b49f2c9ab7a510ad03774faf08cb1a31bf398a9db603eecf950f1ae98ff7e  LunaHook64.dll
+  95d04e5d7c8bd6a10f8105358daeb6416ec0c390198b4062b6f842961c2263f5  LunaTmpFontLoader.dll
+  26c73284d289250c19bd098b985d5ac95ef1e09cd567c1423973e99387353184  LunaSubprocess32.exe
+  7dca85489e87baa3095455bb3af9d444093143ddc56b669db63eefd205e9a206  LunaSubprocess64.exe
+  59d325227321d52b9a523ea401ce6787a5d59f78229a0ff3a6f124e5d3445685  msvcp140.dll
+  eb1ee979bf02324712346e5bdbfc59c785388bc50d18cc2688aae4b0734915a0  vcruntime140.dll
+  a14b4a42a2c6df04d6d53a8340816023d953406f7f3d94996c7cab30c414ff63  vcruntime140_1.dll
+  1d8864e87a2c76ec2a65890266f22f6c104e7d919c472374661c705401315aad  source\LunaTranslator-12.1.3.12.zip

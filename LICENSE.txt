@@ -1,0 +1,59 @@
+SLUKA DESKTOP: LICENCE AGREEMENT
+================================
+
+Sluka Desktop -- the program, its Setup, and the files that come with
+them -- is part of Sluka, which is made in Gothenburg, Sweden.
+Copyright (c) 2026 Sluka.  All rights reserved, except as this
+agreement says.
+
+Read this before you install or use Sluka Desktop.  By ticking "I
+accept the licence agreement" in Setup, or by installing or using
+Sluka Desktop, you agree to it.
+
+
+1. SLUKA'S TERMS
+
+   You may use Sluka Desktop under Sluka's terms of use,
+   https://sluka.app/terms, as you use the Sluka extension.  Where
+   those terms and this agreement say different things about Sluka
+   Desktop, this agreement is what counts.  It does not change what
+   Sluka's terms say about the Sluka extension, or about a licence for
+   Sluka.
+
+
+2. CREDIT, AND THE NOTICES
+
+   Sluka Desktop stands on others' work, with thanks: above all that
+   of HIllya51 and LunaTranslator's contributors, whose LunaHook --
+   building on Artikash's Textractor -- reads the text of games; that
+   of the makers of PaddleOCR, OpenCV and Microsoft's ONNX Runtime,
+   which read the screen; and that of the Go authors, as Setup is
+   built with Go.  Their software comes with Sluka Desktop under its
+   own licences, and some of Sluka Desktop's own files are free
+   software, under the GNU General Public License: you need not accept
+   this agreement to receive, run, copy, change or share any of these,
+   and nothing in this agreement, or in Sluka's terms, limits what
+   those licences let you do.  Microsoft's C++ runtime files, which
+   the engine and the OCR need, come with Sluka Desktop on Microsoft's
+   terms instead, and those terms are part of this agreement.
+   NOTICES.txt, beside this file, says the rest: which software is
+   where, who made it, under which licence it comes, and where its
+   source code is (LunaTranslator's, complete, is in engine\source);
+   Microsoft's terms; and what Sluka Desktop does on your computer,
+   and what it sends where.
+
+
+3. NO WARRANTY
+
+   As far as the law allows, Sluka Desktop is provided "as is",
+   without warranty of any kind; Sluka's terms say the rest.  The
+   software in 2 comes with its own licences' terms on warranty and
+   liability.
+
+
+4. THE LAW
+
+   Swedish law applies to this agreement.  If you are a consumer, you
+   keep the protection that the mandatory rules of the country where
+   you live give you, and you may take a dispute to Sweden's National
+   Board for Consumer Disputes, Allmänna reklamationsnämnden (ARN).

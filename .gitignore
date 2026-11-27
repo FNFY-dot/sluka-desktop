@@ -1,0 +1,10 @@
+# Your own data and settings: never in the repository.
+data/
+config.ini
+extension/
+# Made by Python and by builds.
+__pycache__/
+*.pyc
+out/
+*.exe
+*.zip
