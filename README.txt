@@ -6,7 +6,12 @@ its dashboard, books, videos and audio in windows of their own, its
 subtitles and word cards inside mpv, its words in Anki's review screen,
 and its subtitle box floating over any other program -- with the text of
 the game you are playing in it.
-It is the app made for Tails, with Windows' ways in place of Linux's.
+
+I initially made this app for TailsOS, ported it to windows afterwards.
+I left some TailsOS elements behind in case I ever want to make a update for it.
+I chose to manually build the panel buttons from scratch (hence why a small few,
+from the extension are missing) in order to prevent potential errors that may arise
+from new extension updates that would render the desktop obsolete.
 
 New in 0.16.2:
 
